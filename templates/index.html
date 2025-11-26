@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Converter Excel → TXT</title>
+    <style>
+      body { font-family: Arial, sans-serif; padding: 20px; }
+      .status { margin-top: 12px; }
+      .hidden { display: none; }
+    </style>
+  </head>
+  <body>
+    <h2>Converter Excel → TXT (formato BRASIL_CONVENIOS)</h2>
+    <p>Selecione um arquivo Excel (.xlsx) com as colunas: <b>data</b>, <b>codigo</b>/<b>matricula</b> e <b>valor</b>.</p>
+
+    <form id="uploadForm">
+      <input type="file" id="file" name="file" accept=".xlsx,.xls" required>
+      <button type="submit">Converter e baixar TXT</button>
+    </form>
+
+    <div class="status" id="status"></div>
+    <div id="downloadArea" class="hidden">
+      <a id="downloadLink" href="#" download="output.txt">Clique aqui para baixar o arquivo</a>
+    </div>
+
+    <script>
+      const form = document.getElementById('uploadForm');
+      const fileInput = document.getElementById('file');
+      const status = document.getElementById('status');
+      const downloadArea = document.getElementById('downloadArea');
+      const downloadLink = document.getElementById('downloadLink');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        downloadArea.classList.add('hidden');
+        status.textContent = '';
+
+        const file = fileInput.files[0];
+        if (!file) { status.textContent = 'Escolha um arquivo.'; return; }
+
+        const fd = new FormData();
+        fd.append('file', file);
+
+        status.textContent = 'Enviando e processando...';
+
+        try {
+          const resp = await fetch('/convert', { method: 'POST', body: fd });
+          if (!resp.ok) {
+            const text = await resp.text();
+            status.textContent = 'Erro: ' + (text || resp.statusText);
+            return;
+          }
+
+          const blob = await resp.blob();
+          const url = URL.createObjectURL(blob);
+          downloadLink.href = url;
+          // Try to get filename from headers
+          const disp = resp.headers.get('Content-Disposition');
+          if (disp) {
+            const m = /filename\*=UTF-8''(.+)$/.exec(disp) || /filename="?([^";]+)"?/.exec(disp);
+            if (m) downloadLink.download = decodeURIComponent(m[1]);
+          }
+
+          downloadArea.classList.remove('hidden');
+          status.textContent = 'Pronto! Faça o download abaixo.';
+        } catch (err) {
+          status.textContent = 'Erro de rede: ' + err.message;
+        }
+      });
+    </script>
+  </body>
+</html>
