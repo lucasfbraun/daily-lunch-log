@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const fileInput = document.getElementById('fileInput');
   const status = document.getElementById('status');
   const downloadArea = document.getElementById('downloadArea');
+  const fileDrop = document.querySelector('.file-drop');
+  const fileNameEl = document.getElementById('fileName');
 
   form.addEventListener('submit', async (e)=>{
     e.preventDefault();
@@ -36,4 +38,27 @@ document.addEventListener('DOMContentLoaded', ()=>{
       status.textContent = 'Erro ao enviar o arquivo.';
     }
   });
+
+  // update filename display when a file is selected
+  fileInput.addEventListener('change', ()=>{
+    const f = fileInput.files[0];
+    if(f){
+      fileNameEl.textContent = f.name;
+    } else {
+      fileNameEl.textContent = '';
+    }
+  });
+
+  // drag and drop support on the label
+  if(fileDrop){
+    fileDrop.addEventListener('dragover', (e)=>{ e.preventDefault(); fileDrop.classList.add('dragover'); });
+    fileDrop.addEventListener('dragleave', ()=>{ fileDrop.classList.remove('dragover'); });
+    fileDrop.addEventListener('drop', (e)=>{
+      e.preventDefault(); fileDrop.classList.remove('dragover');
+      if(e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length){
+        fileInput.files = e.dataTransfer.files;
+        const evt = new Event('change'); fileInput.dispatchEvent(evt);
+      }
+    });
+  }
 });

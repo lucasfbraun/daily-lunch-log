@@ -24,8 +24,18 @@
       <p class="lead">Selecione um arquivo Excel (.xlsx) com as colunas: <strong>data</strong>, <strong>codigo</strong>/<strong>matricula</strong> e <strong>valor</strong>. A saída terá uma linha por matrícula com a última data e soma dos valores.</p>
 
       <div class="card">
-        <form id="uploadForm" style="display:flex;gap:12px;align-items:center;margin:0;width:100%">
-          <input type="file" id="fileInput" name="file" accept=".xlsx,.xls" required>
+        <form id="uploadForm" style="display:flex;gap:12px;align-items:center;margin:0;width:100%;flex-wrap:wrap">
+          <label class="file-drop" for="fileInput">
+            <input type="file" id="fileInput" name="file" accept=".xlsx,.xls" required>
+            <div class="file-drop-content">
+              <div class="file-icon">📁</div>
+              <div class="file-text">
+                <div class="file-title">Arraste e solte ou clique para selecionar</div>
+                <div class="file-sub">Suporta .xlsx e .xls — 1 arquivo por vez</div>
+              </div>
+            </div>
+            <div class="file-name" id="fileName" aria-live="polite"></div>
+          </label>
           <button type="submit" class="btn-cta">Converter e baixar TXT</button>
         </form>
       </div>

@@ -31,12 +31,19 @@ h2{color:var(--accent2);margin:0 0 8px 0}
 
 /* Card */
 .card{background:var(--lt1);padding:18px;border-radius:16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 8px rgba(0,0,0,0.06)}
-.card input[type="file"]{flex:1;padding:10px;border-radius:8px;border:1px solid #e6e6e6}
+.card input[type="file"]{display:none}
+.file-drop{flex:1;display:block;border:2px dashed rgba(0,0,0,0.08);padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.4));cursor:pointer;transition:all 0.18s ease}
+.file-drop:hover{border-color:var(--accent3);box-shadow:0 6px 18px rgba(0,0,0,0.06);transform:translateY(-2px)}
+.file-drop-content{display:flex;align-items:center;gap:12px}
+.file-icon{font-size:28px}
+.file-title{font-weight:600;color:var(--accent2)}
+.file-sub{font-size:0.85rem;color:var(--dk2)}
+.file-name{margin-top:8px;font-size:0.95rem;color:var(--dk2);font-weight:600}
 
 /* Buttons */
 /* primary CTA uses green gradients */
-.btn-cta{background:linear-gradient(135deg,var(--accent5) 0%, #007c8a 100%);color:var(--lt1);border-radius:10px;padding:10px 16px;border:none;font-weight:700;letter-spacing:0.8px;cursor:pointer;text-transform:uppercase}
-.btn-cta:hover{background:linear-gradient(135deg,#007c8a 0%, var(--accent5) 100%);transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,151,167,0.18)}
+.btn-cta{background:linear-gradient(135deg,var(--accent5) 0%, #007c8a 100%);color:var(--lt1);border-radius:10px;padding:12px 18px;border:none;font-weight:700;letter-spacing:0.8px;cursor:pointer;text-transform:uppercase}
+.btn-cta:hover{background:linear-gradient(135deg,#007c8a 0%, var(--accent5) 100%);transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,151,167,0.18)}
 
 /* Download link */
 #downloadArea{margin-top:12px}
