@@ -4,37 +4,35 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Converter Excel → TXT</title>
-    <!-- Roboto font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="/static/styles.css">
   </head>
   <body>
     <header>
-      <img class="logo" src="{{ url_for('static', filename='logo.svg') }}" alt="Logo">
-      <div class="brand">
+      <img class="logo" src="/static/logo.svg" alt="Grupo Flexível">
+      <div style="display:flex;flex-direction:column;">
         <div class="title">Grupo Flexível</div>
         <div class="subtitle">Conversor Excel → TXT</div>
       </div>
     </header>
 
-    <main class="container">
+    <main>
       <h2>Converter Excel → TXT</h2>
       <p class="lead">Selecione um arquivo Excel (.xlsx) com as colunas: <strong>data</strong>, <strong>codigo</strong>/<strong>matricula</strong> e <strong>valor</strong>. A saída terá uma linha por matrícula com a última data e soma dos valores.</p>
 
       <div class="card">
-        <form id="uploadForm" style="display:flex;gap:12px;align-items:center;margin:0;width:100%">
+        <form id="uploadForm" style="display:flex;gap:12px;align-items:center;margin:0">
           <input type="file" id="fileInput" name="file" accept=".xlsx,.xls" required>
-          <button type="submit" class="btn-cta">Converter e baixar TXT</button>
+          <button type="submit">Converter e baixar TXT</button>
         </form>
       </div>
 
       <div class="status" id="status"></div>
 
-      <div id="downloadArea"></div>
+      <div id="downloadArea">
+        <div class="note">Formato: data (YYYYMMDD000) • matrícula (9 dígitos) • valor (7 dígitos, centavos)</div>
+      </div>
     </main>
 
-    <script src="{{ url_for('static', filename='app.js') }}"></script>
+    <script src="/static/app.js"></script>
   </body>
 </html>

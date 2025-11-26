@@ -64,18 +64,14 @@ def convert():
     # ensure valor numeric
     df[val_col] = pd.to_numeric(df[val_col], errors='coerce').fillna(0)
 
-    # Sum all meals per matricula and take the latest date for each matricula
-    summed = df.groupby('mat_digits', as_index=False)[val_col].sum()
-    latest_dates = df.groupby('mat_digits', as_index=False)[date_col].max()
-    merged = pd.merge(summed, latest_dates, on='mat_digits', how='left')
+    grouped = df.groupby(['date_str', 'mat_digits'], as_index=False)[val_col].sum()
 
-    # Format lines (one line per matricula: latest date + total)
+    # Format lines
     lines = []
-    for _, row in merged.iterrows():
-        latest_dt = row[date_col]
-        date_str_latest = latest_dt.strftime('%Y%m%d') if not pd.isna(latest_dt) else ''
-        date_part = f"{date_str_latest}000"
+    for _, row in grouped.iterrows():
+        date_part = f"{row['date_str']}000"
         mat = str(row['mat_digits']).zfill(9)
+        # value: assume input is in currency units (e.g., reais), convert to cents
         cents = int(round(row[val_col] * 100))
         val_str = str(cents).zfill(7)
         lines.append(f"{date_part} {mat} {val_str}")

@@ -1,0 +1,57 @@
+/* Identity variables from IDENTIDADE_VISUAL.md */
+:root{
+  --dk1:#000000;
+  --lt1:#FFFFFF;
+  --dk2:#595959;
+  --lt2:#EEEEEE;
+  --accent1:#4285F4; /* Azul Google */
+  --accent2:#212121;
+  --accent3:#78909C;
+  --accent4:#FFAB40;
+  --accent5:#0097A7; /* Ciano */
+  --accent6:#EEFF41;
+}
+
+/* Base */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{font-family:'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;margin:0;background:var(--lt1);color:var(--dk2);-webkit-font-smoothing:antialiased}
+.container{max-width:980px;margin:28px auto;padding:24px}
+
+/* Header */
+header{position:relative;display:flex;align-items:center;padding:18px 20px;box-shadow:0 8px 16px rgba(66,133,244,0.08);background:linear-gradient(135deg,var(--accent1) 0%, var(--accent5) 100%);color:var(--lt1)}
+.logo{position:absolute;left:12px;top:50%;transform:translateY(-50%);height:56px;width:auto;display:block}
+header .brand{margin-left:84px}
+header .title{font-weight:800;font-size:1.1rem;color:var(--lt1)}
+header .subtitle{font-size:0.95rem;color:rgba(255,255,255,0.95);margin-top:2px}
+
+/* Lead */
+h2{color:var(--accent2);margin:0 0 8px 0}
+.lead{color:var(--dk2);margin:6px 0 14px 0}
+
+/* Card */
+.card{background:var(--lt1);padding:18px;border-radius:16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.card input[type="file"]{flex:1;padding:10px;border-radius:8px;border:1px solid #e6e6e6}
+
+/* Buttons */
+.btn-cta{background:linear-gradient(135deg,var(--accent1) 0%, var(--accent5) 100%);color:var(--lt1);border-radius:10px;padding:10px 16px;border:none;font-weight:700;letter-spacing:0.6px;cursor:pointer}
+.btn-cta:hover{background:linear-gradient(135deg,var(--accent5) 0%, var(--accent1) 100%);transform:translateY(-2px);box-shadow:0 6px 16px rgba(66,133,244,0.18)}
+
+/* Download link */
+#downloadArea{margin-top:12px}
+#downloadArea a{display:inline-block;background:var(--accent3);color:var(--lt1);padding:10px 14px;border-radius:8px;text-decoration:none}
+
+/* Status */
+.status{margin-top:12px;color:var(--dk2);font-weight:500}
+
+/* Cards and content */
+.note{font-size:0.9rem;color:#666;margin-top:8px}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:10px}
+::-webkit-scrollbar-track{background:var(--lt2)}
+::-webkit-scrollbar-thumb{background:var(--accent3);border-radius:5px}
+::-webkit-scrollbar-thumb:hover{background:var(--accent5)}
+
+/* Responsive */
+@media (max-width:700px){header{padding:12px 12px 12px 110px}.logo{height:48px;left:12px}.card{flex-direction:column;align-items:stretch}}
