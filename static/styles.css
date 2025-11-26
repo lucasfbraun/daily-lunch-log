@@ -19,8 +19,8 @@ body{font-family:'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;margi
 
 /* Header */
 /* header gradient shifted to green-primary (accent5) for brand preference */
-header{position:relative;display:flex;align-items:center;padding:18px 20px 18px 220px;background:linear-gradient(135deg,var(--accent5) 0%, #007c8a 100%);color:var(--lt1);box-shadow:0 8px 16px rgba(0,151,167,0.12);border-radius:0 0 12px 12px}
-.logo{position:absolute;left:16px;top:50%;transform:translateY(-50%);height:56px;width:auto;display:block;z-index:50}
+header{position:relative;display:flex;align-items:center;padding:18px 20px 18px 260px;background:linear-gradient(135deg,var(--accent5) 0%, #007c8a 100%);color:var(--lt1);box-shadow:0 8px 16px rgba(0,151,167,0.12);border-radius:0 0 12px 12px}
+.logo{position:absolute;left:16px;top:50%;transform:translateY(-50%);height:80px;width:auto;display:block;z-index:50}
 header .brand{margin-left:0}
 header .title{font-weight:800;font-size:1.1rem;color:var(--lt1)}
 header .subtitle{font-size:0.95rem;color:rgba(255,255,255,0.95);margin-top:2px}
@@ -51,4 +51,4 @@ h2{color:var(--accent2);margin:0 0 8px 0}
 ::-webkit-scrollbar-thumb{background:var(--accent3);border-radius:5px}
 ::-webkit-scrollbar-thumb:hover{background:var(--accent5)}
 
-@media (max-width:700px){header{padding:12px 12px 12px 110px}.logo{height:48px;left:12px}.card{flex-direction:column;align-items:stretch}}
+@media (max-width:700px){header{padding:12px 12px 12px 140px}.logo{height:56px;left:12px}.card{flex-direction:column;align-items:stretch}}
