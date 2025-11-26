@@ -44,11 +44,12 @@ def convert(path, output_path=None):
     df['mat_digits'] = df[mat_col].apply(only_digits)
     df[val_col] = pd.to_numeric(df[val_col], errors='coerce').fillna(0)
 
-    grouped = df.groupby(['date_str', 'mat_digits'], as_index=False)[val_col].sum()
+    # Aggregate by matricula: sum values and take last date for each matricula
+    agg = df.groupby('mat_digits', as_index=False).agg({val_col: 'sum', date_col: 'max'})
 
     lines = []
-    for _, row in grouped.iterrows():
-        date_part = f"{row['date_str']}000"
+    for _, row in agg.iterrows():
+        date_part = row[date_col].strftime('%Y%m%d') + '000'
         mat = str(row['mat_digits']).zfill(9)
         cents = int(round(row[val_col] * 100))
         val_str = str(cents).zfill(7)
