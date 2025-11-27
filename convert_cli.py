@@ -62,7 +62,7 @@ def convert(path, output_path=None):
     lines = []
     for _, row in agg.iterrows():
         date_part = row[date_col].strftime('%Y%m%d') + '000'
-        mat = str(row['mat_digits']).zfill(9)
+        mat = str(row['mat_digits']).zfill(10)
         cents = int(round(row[val_col] * 100))
         val_str = str(cents).zfill(7)
         lines.append(f"{date_part} {mat} {val_str}")
