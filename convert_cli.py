@@ -28,8 +28,10 @@ def convert(path, output_path=None):
     df = pd.read_excel(path, engine='openpyxl')
 
     date_col = find_column(df.columns, ['data', 'date'])
-    mat_col = find_column(df.columns, ['matric', 'matrícula', 'matricula', 'codigo', 'cod'])
-    val_col = find_column(df.columns, ['valor', 'value', 'refei'])
+    # Accept both accented and unaccented forms for 'codigo'
+    mat_col = find_column(df.columns, ['matric', 'matrícula', 'matricula', 'codigo', 'código', 'cod'])
+    # Prefer explicit header 'valor refeição' (case-insensitive), but accept common alternatives
+    val_col = find_column(df.columns, ['valor refeição', 'valor', 'value', 'refei'])
 
     if not date_col or not mat_col or not val_col:
         raise ValueError("Colunas necessárias não encontradas. Procure por 'data', 'codigo/matricula' e 'valor'.")
