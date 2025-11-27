@@ -16,6 +16,18 @@ def find_column(columns, keywords):
 
 
 def only_digits(s):
+    # If numeric, avoid decimal point creating extra zeros (e.g., 125.0 -> '1250')
+    try:
+        # handle pandas/numpy numeric types too
+        import numbers
+        if isinstance(s, numbers.Integral):
+            return str(s)
+        if isinstance(s, numbers.Real):
+            # if it's an integer value like 125.0, convert to int
+            if float(s).is_integer():
+                return str(int(s))
+    except Exception:
+        pass
     return re.sub(r"\D", "", str(s))
 
 
