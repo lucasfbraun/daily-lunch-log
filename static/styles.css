@@ -48,6 +48,8 @@ h2{color:var(--accent2);margin:0 0 8px 0}
 /* Download link */
 #downloadArea{margin-top:12px}
 #downloadArea a{display:inline-block;background:var(--accent5);color:var(--lt1);padding:10px 14px;border-radius:8px;text-decoration:none}
+#downloadAreaPJ{margin-top:24px}
+#downloadAreaPJ a{display:inline-block;background:var(--accent5);color:var(--lt1);padding:10px 14px;border-radius:8px;text-decoration:none}
 
 /* Status */
 .status{margin-top:12px;color:var(--dk2);font-weight:500}

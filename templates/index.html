@@ -45,6 +45,33 @@
       <div id="downloadArea"></div>
     </main>
 
+    <!-- Novo bloco: Almoços funcionarios PJ -->
+    <main class="container">
+      <h2>Almoços funcionarios PJ</h2>
+      <p class="lead">Faça upload de um arquivo Excel (.xlsx) com as colunas: <strong>Nome</strong>, <strong>codigo</strong> e <strong>Valor Refeição</strong>. O sistema irá totalizar os valores por código e gerar um novo Excel.</p>
+
+      <div class="card">
+        <form id="uploadFormPJ" style="display:flex;gap:12px;align-items:center;margin:0;width:100%;flex-wrap:wrap">
+          <label class="file-drop" for="fileInputPJ">
+            <input type="file" id="fileInputPJ" name="file" accept=".xlsx,.xls" required>
+            <div class="file-drop-content">
+              <div class="file-icon">📁</div>
+              <div class="file-text">
+                <div class="file-title">Arraste e solte ou clique para selecionar</div>
+                <div class="file-sub">Suporta .xlsx e .xls — 1 arquivo por vez</div>
+              </div>
+            </div>
+            <div class="file-name" id="fileNamePJ" aria-live="polite"></div>
+          </label>
+          <button type="submit" class="btn-cta">Totalizar e baixar Excel</button>
+        </form>
+      </div>
+
+      <div class="status" id="statusPJ"></div>
+
+      <div id="downloadAreaPJ"></div>
+    </main>
+
     <script src="{{ url_for('static', filename='app.js') }}"></script>
   </body>
 </html>

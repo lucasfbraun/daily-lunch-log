@@ -100,5 +100,58 @@ def convert():
     return send_file(buf, as_attachment=True, download_name='output.txt', mimetype='text/plain')
 
 
+@app.route('/convert_pj', methods=['POST'])
+def convert_pj():
+    file = request.files.get('file')
+    if not file:
+        return redirect(url_for('index'))
+
+    try:
+        df = pd.read_excel(file, engine='openpyxl')
+    except Exception as e:
+        return f"Erro ao ler o arquivo Excel: {e}", 400
+
+    # Find columns
+    mat_col = find_column(df.columns, ['matric', 'matrícula', 'matricula', 'codigo', 'código', 'cod'])
+    val_col = find_column(df.columns, ['valor refeição', 'valor', 'value', 'refei'])
+    name_col = find_column(df.columns, ['nome', 'name', 'funcionario', 'funcionário'])
+
+    if not mat_col or not val_col:
+        return (
+            "Colunas não encontradas. O arquivo Excel precisa ter colunas 'codigo' e 'valor refeição'.",
+            400,
+        )
+
+    # Clean data
+    df = df.dropna(subset=[mat_col, val_col])
+
+    # Prepare matricula
+    df['mat_digits'] = df[mat_col].apply(only_digits)
+    df[val_col] = pd.to_numeric(df[val_col], errors='coerce').fillna(0)
+
+    # Group by matricula and sum values, keep the first name
+    agg_dict = {val_col: 'sum'}
+    if name_col:
+        agg_dict[name_col] = 'first'
+    
+    agg = df.groupby('mat_digits', as_index=False).agg(agg_dict)
+    
+    # Rename columns
+    if name_col:
+        agg.columns = ['Código', 'Valor Total Refeição', 'Nome']
+        agg = agg[['Código', 'Nome', 'Valor Total Refeição']]  # Reorder columns
+    else:
+        agg.columns = ['Código', 'Valor Total Refeição']
+
+    # Create Excel output
+    output = io.BytesIO()
+    with pd.ExcelWriter(output, engine='openpyxl') as writer:
+        agg.to_excel(writer, index=False, sheet_name='Totalizacao')
+    output.seek(0)
+
+    return send_file(output, as_attachment=True, download_name='almoco_pj_totalizado.xlsx', 
+                     mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5002, debug=True)

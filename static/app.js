@@ -62,3 +62,72 @@ document.addEventListener('DOMContentLoaded', ()=>{
     });
   }
 });
+
+
+// --- Novo bloco: Almoços funcionarios PJ ---
+document.addEventListener('DOMContentLoaded', ()=>{
+  const formPJ = document.getElementById('uploadFormPJ');
+  const fileInputPJ = document.getElementById('fileInputPJ');
+  const statusPJ = document.getElementById('statusPJ');
+  const downloadAreaPJ = document.getElementById('downloadAreaPJ');
+  const fileDropPJ = document.querySelector('#fileInputPJ + .file-drop-content')?.parentElement;
+  const fileNameElPJ = document.getElementById('fileNamePJ');
+
+  if(!formPJ) return; // Se não existir o formulário PJ, não faz nada
+
+  formPJ.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    downloadAreaPJ.innerHTML='';
+    statusPJ.textContent='';
+
+    const file = fileInputPJ.files[0];
+    if(!file){ statusPJ.textContent='Selecione um arquivo .xlsx primeiro.'; return }
+
+    statusPJ.textContent='Processando arquivo...';
+    try{
+      const formData = new FormData();
+      formData.append('file', file);
+      const resp = await fetch('/convert_pj',{method:'POST',body:formData});
+      if(!resp.ok){
+        const txt = await resp.text();
+        statusPJ.textContent = 'Erro: '+ (txt || resp.statusText);
+        return;
+      }
+
+      const blob = await resp.blob();
+      const filename = 'almoco_pj_totalizado.xlsx';
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.id='downloadLinkPJ'; a.download = filename; a.textContent = 'Baixar Excel totalizado';
+      a.className='btn-cta';
+      statusPJ.textContent = 'Totalização concluída.';
+      downloadAreaPJ.appendChild(a);
+    }catch(err){
+      console.error(err);
+      statusPJ.textContent = 'Erro ao processar o arquivo.';
+    }
+  });
+
+  // update filename display when a file is selected
+  fileInputPJ.addEventListener('change', ()=>{
+    const f = fileInputPJ.files[0];
+    if(f){
+      fileNameElPJ.textContent = f.name;
+    } else {
+      fileNameElPJ.textContent = '';
+    }
+  });
+
+  // drag and drop support
+  if(fileDropPJ){
+    fileDropPJ.addEventListener('dragover', (e)=>{ e.preventDefault(); fileDropPJ.classList.add('dragover'); });
+    fileDropPJ.addEventListener('dragleave', ()=>{ fileDropPJ.classList.remove('dragover'); });
+    fileDropPJ.addEventListener('drop', (e)=>{
+      e.preventDefault(); fileDropPJ.classList.remove('dragover');
+      if(e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length){
+        fileInputPJ.files = e.dataTransfer.files;
+        const evt = new Event('change'); fileInputPJ.dispatchEvent(evt);
+      }
+    });
+  }
+});
