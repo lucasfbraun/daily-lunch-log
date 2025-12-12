@@ -91,9 +91,11 @@ def convert():
         val_str = str(cents).zfill(7)
         lines.append(f"{date_part} {mat} {val_str}")
 
-    txt = "\n".join(lines)
+    # Join with CRLF (Windows line ending) and encode as UTF-8
+    txt = "\r\n".join(lines) + "\r\n"
 
     buf = io.BytesIO()
+    # Keep UTF-8 encoding but use CRLF line endings
     buf.write(txt.encode('utf-8'))
     buf.seek(0)
 
