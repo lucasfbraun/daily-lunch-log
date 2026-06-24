@@ -64,6 +64,50 @@ document.addEventListener('DOMContentLoaded', ()=>{
 });
 
 
+// --- Botão PDF no primeiro card ---
+document.addEventListener('DOMContentLoaded', ()=>{
+  const btnGerarPDF = document.getElementById('btnGerarPDF');
+  const fileInput = document.getElementById('fileInput');
+  const statusPDF = document.getElementById('statusPDF');
+  const downloadAreaPDF = document.getElementById('downloadAreaPDF');
+
+  if(!btnGerarPDF) return;
+
+  btnGerarPDF.addEventListener('click', async ()=>{
+    downloadAreaPDF.innerHTML='';
+    statusPDF.textContent='';
+
+    const file = fileInput.files[0];
+    if(!file){ statusPDF.textContent='Selecione um arquivo .xlsx primeiro.'; return; }
+
+    statusPDF.textContent='Gerando relatório PDF...';
+    btnGerarPDF.disabled = true;
+    try{
+      const formData = new FormData();
+      formData.append('file', file);
+      const resp = await fetch('/convert_pdf',{method:'POST',body:formData});
+      if(!resp.ok){
+        const txt = await resp.text();
+        statusPDF.textContent = 'Erro: '+ (txt || resp.statusText);
+        return;
+      }
+      const blob = await resp.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'almoco_totalizado.pdf';
+      a.textContent = 'Baixar PDF do relatório';
+      a.className='btn-cta';
+      downloadAreaPDF.appendChild(a);
+      statusPDF.textContent = 'Relatório PDF gerado com sucesso.';
+    }catch(err){
+      console.error(err);
+      statusPDF.textContent = 'Erro ao gerar o PDF.';
+    } finally {
+      btnGerarPDF.disabled = false;
+    }
+  });
+});
+
 // --- Novo bloco: Almoços funcionarios PJ ---
 document.addEventListener('DOMContentLoaded', ()=>{
   const formPJ = document.getElementById('uploadFormPJ');
